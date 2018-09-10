@@ -135,8 +135,12 @@ module.exports = Field.create({
 		// NOTE: this seems like the wrong way to add options to the Select
 		this.loadOptionsCallback = callback;
 		const filters = this.buildFilters();
+		let url =  Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters
+		if (this.props.limit) {
+			url = url + '&limit=' + this.props.limit;
+		}
 		xhr({
-			url: Keystone.adminPath + '/api/' + this.props.refList.path + '?basic&search=' + input + '&' + filters,
+			url: url,
 			responseType: 'json',
 		}, (err, resp, data) => {
 			if (err) {
